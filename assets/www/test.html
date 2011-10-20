@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Example</title>
+
+    <script type="text/javascript" charset="utf-8" src="phonegap-1.1.0.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // Wait for PhoneGap to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // PhoneGap is ready
+    //
+    function onDeviceReady() {
+        //window.localStorage.setItem("key", "valor");
+        
+        var value = window.localStorage.getItem("key");
+        // value is now equal to "value"
+        alert(value);
+        //window.localStorage.removeItem("key");
+        //window.localStorage.setItem("key2", "value2");
+        //window.localStorage.clear();
+        // localStorage is now empty
+    }
+
+	
+    </script>
+  </head>
+  <body>
+    <h1>Example</h1>
+    <p>localStorage</p>
+    <a href='local.html'>local</a>
+    
+  </body>
+</html>
