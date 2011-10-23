@@ -3,11 +3,26 @@
 	<head>
 		<title>List</title>
 		<script type="text/javascript" charset="utf-8" src="scripts/phonegap-1.1.0.js"></script>
+		<script type="text/javascript" charset="utf-8" src="scripts/database_helper.js"></script>
+		<script type="text/javascript" charset="utf-8" src="scripts/jquery.min.js"></script> 
+		
+		<script type="text/javascript">
+		var id = gup('id');
+		var name = gup('name');
+		var href = 'categories.html?id='+id+'&name='+name; 
+		$(document).ready(function(){
+        	$("#list").html(name);
+        	getProductsFromList(id)
+        	$("#edit").attr('href',href);
+        });
+		
+		</script>
 	</head>
 	<body>
-		<h1>List</h1>
-		<a href='product.html'>Producto</a>
-		<a href='list.html'>Ver mi Lista</a>
+		<h1 id='list'>List</h1>
+		<a href='categories.html' id='edit'>Editar</a>
 		<a href='index.html'>Terminar</a>
+		
+		<div id='result'></div>
 	</body>
 </html>

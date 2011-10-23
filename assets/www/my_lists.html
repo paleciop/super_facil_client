@@ -3,11 +3,18 @@
 	<head>
 		<title>Mis Listas</title>
 		<script type="text/javascript" charset="utf-8" src="scripts/phonegap-1.1.0.js"></script>
+		<script type="text/javascript" charset="utf-8" src="scripts/database_helper.js"></script>
+		<script type="text/javascript" charset="utf-8" src="scripts/jquery.min.js"></script> 
+		
+		<script type="text/javascript" charset="utf-8">
+			getListsNames();
+		</script>
 	</head>
 	<body>
 		<h1>Mis Listas</h1>
-		
-		<a href='categories.html'>Agregar una nueva Lista</a>
-		<a href='list.html'>lista</a>
+		<br/>
+		<div id='lists'></div>
+		<a href='new_list.html'>Agregar una nueva Lista</a>
+		<div id='result'></div>
 	</body>
 </html>

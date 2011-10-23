@@ -3,9 +3,16 @@
 	<head>
 		<title>Categorías</title>
 		<script type="text/javascript" charset="utf-8" src="scripts/phonegap-1.1.0.js"></script>
+		<script type="text/javascript" charset="utf-8" src="scripts/database_helper.js"></script>
+		<script type="text/javascript" charset="utf-8" src="scripts/jquery.min.js"></script> 
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function(){
+	        	$("#title").append(gup('name'));
+        	});
+		</script>
 	</head>
 	<body>
-		<h1>Categorías</h1>
+		<h1 id='title'>Categorías para <br/>  </h1>
 		<a href='categories.html'>Regresar</a>
 		<a href='index.html'>Terminar</a>
 	</body>

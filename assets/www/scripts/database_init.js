@@ -12,7 +12,8 @@ function errorHandler(transaction, error) {
 
 // this is called when a successful transaction happens 
 function successCallBack() { 
-	alert("DEBUGGING: success"); 
+	console.log("DEBUGGING: success");
+	//alert("DEBUGGING: success"); 
 } 
 
 function nullHandler(){}; 

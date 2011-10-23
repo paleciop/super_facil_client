@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Nueva Lista</title>
+		<script type="text/javascript" charset="utf-8" src="scripts/phonegap-1.1.0.js"></script>
+		<script type="text/javascript" charset="utf-8" src="scripts/database_helper.js"></script>
+		<script type="text/javascript" charset="utf-8" src="scripts/jquery.min.js"></script> 
+		<script type="text/javascript">
+			function createList(){
+				var name = $('#list_name').val();
+				var budget = parseInt($('#list_budget').val());
+				newList(name,budget);
+				 window.location = "categories.html";		
+			}
+		</script> 
+		
+		
+	</head>
+	<body>
+		<h1>Nueva Lista</h1>
+		Nombre de la Lista:
+		<input type="text" id="list_name">
+		Presupuesto
+		<input type="text" id="list_budget"> 
+		<input type="button" value="Agregar lista" onClick="createList()"> 
+		<br/>
+		<a href='categories.html'>Agregar productos</a>
+		<a href='my_lists.html'>listas</a>
+	</body>
+</html>
