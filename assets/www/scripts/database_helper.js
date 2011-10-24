@@ -120,7 +120,18 @@ function getProductsFromList(list_id,onSuccess){
 
 //insert into lists_products values (?,?,id_list,id_product)
 
+/*
+se usa para obtener el nombre y id de las listas (de todas) 
+la funcion onSuccess se manda a llamar cuando está listo el resultado, su unico parametro es un json con
+los resultados:
+{"lists": [
+        [1,"compras del mes"],
+        [2,"test"],
+        [3,"test2"]
+    ]
+}
 
+*/
 function getListsNames(onSuccess){
 	
 	var names = "";
