@@ -6,7 +6,33 @@
 	</head>
 	<body>
 		<h1>Escanear Productos</h1>
+		<button onclick="scanBarcode();">Escanear</button>
 		<a href='cart.html'>Carreta</a>
 		<a href='index.html'>regresar</a>
+		
+		<script type="text/javascript" charset="utf-8" src="barcodescanner.js"></script>
+		<script type="text/javascript">
+			 var scanBarcode = function() {
+			  window.plugins.barcodeScanner.scan( BarcodeScanner.Type.QR_CODE, function(result) {
+			        alert("We got a barcode: " + result);
+			        /*jQuery.ajax({
+			        	url: "http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo",
+			        	beforeSend: function(){
+			        		jQuery("#result").html('loading');
+			        	},
+			        	complete: function(data){
+			        		var count = 0;
+			        		for(var i in data) {
+			        			count++;
+			        		}
+			        		jQuery("#result").html("Exito: " + count);
+			        	}
+			        }); */
+			    }, function(error) {
+			        alert("Scanning failed: " + error);
+			    }, {yesString: "Install"}
+			);}
+		</script>		
+		
 	</body>
 </html>

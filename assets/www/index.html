@@ -1,33 +1,38 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>Súper Fácil</title>
+		<title>Súper F&aacute;cil</title>
+		
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"> 
+
+		<link rel="stylesheet" href="lib/touch/resources/css/sencha-touch.css" type="text/css">
+		<script type="text/javascript" src="lib/touch/sencha-touch-debug.js"></script>
+		<script type="text/javascript" src="app/app.js"></script>
+		
+		<script type="text/javascript" src="app/controllers/shoppingLists.js"></script>
+		
+		<script type="text/javascript" src="app/views/ShoppingLists.js"></script>
+		<script type="text/javascript" src="app/views/MainScreen.js"></script>
+		
+		<script type="text/javascript" src="app/views/Viewport.js"></script>
+		
+		
+		<script type="text/javascript">
+    		document.addEventListener("deviceready", app.mainLaunch, false);
+		</script>
 		<script type="text/javascript" charset="utf-8" src="scripts/phonegap-1.1.0.js"></script> 
+
         <script type="text/javascript" charset="utf-8" src="scripts/jquery.min.js"></script> 
-		<script type="text/javascript" charset="utf-8" src="scripts/database_init.js"></script>
-		<script type="text/javascript" charset="utf-8" src="scripts/database_helper.js"></script>
+		<!-- <script type="text/javascript" charset="utf-8" src="scripts/database_init.js"></script>
+		<script type="text/javascript" charset="utf-8" src="scripts/database_helper.js"></script> -->
 		<script type="text/javascript" charset="utf-8">
-		function populateList(){
+		/*function populateList(){
 			var names = getListsNames();
 			for(var i=0;i<names.length;i++){
 				$("#lists").append(names[i]+'<br>');
 			}
-		}
+		}*/
 		</script> 
 	</head>
-	<body onload='onBodyLoad()'>
-		<h1>Súper Fácil</h1>
-		<a href='my_lists.html'>Ver mis listas</a>
-		<br/>
-		<a href='scan_products.html'>Voy a realizar mis compras</a>
-		<br/>
-		<input type="button" value="Add record to lists" onClick="newList('test3',500)"> 
-		<br/>
-		<input type="button" value="Add record to products" onClick="insertIntoListsProducts(3,false,12349,1)"> 
-		<br/>
-		<input type="button" value="List values" onClick='ListDBValues()'> 
-		<div id='result'></div>
-		Lists: <br>
-		
-	</body>
+	<body></body>
 </html>
