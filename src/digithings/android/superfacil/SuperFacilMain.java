@@ -3,6 +3,7 @@ package digithings.android.superfacil;
 import android.os.Bundle;
 
 import com.phonegap.*;
+import com.beetight.barcodescanner.*;
 
 public class SuperFacilMain extends DroidGap {
     /** Called when the activity is first created. */
