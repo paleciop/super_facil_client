@@ -4,7 +4,7 @@ var version = '1.0';
 var displayName = 'WebSqlDB'; 
 var maxSize = 512000; 
 var db = openDatabase(shortName, version, displayName,maxSize); 
-
+var ready = false;
 // this is called when an error happens in a transaction 
 function errorHandler(transaction, error) { 
 	alert('Error: ' + error.message + ' code: ' + error.code); 
@@ -16,24 +16,47 @@ function successCallBack() {
 	//alert("DEBUGGING: success"); 
 } 
 
-function nullHandler(){}; 
+function nullHandler(){
+}; 
 
 //OPEN DB
 
+function getLastInsertRowId(name){
+	var id = 0;
+	db.transaction(
+		function(transaction) { 
+			transaction.executeSql(
+				'SELECT last_insert_rowid() as id',
+				[], 
+				function(transaction, result) { 
+					id = result.rows.item(0).id;
+				},errorHandler); 
+		},
+		errorHandler,
+		function(){
+			alert("test:"+id+name); 
+			window.location = "categories.html?id="+id+"&name="+name;	
+		}
+	); 
+
+}
 
 
-function newList(name,budget) {
-alert("newList"); 
- if (!window.openDatabase) { 
-   alert('Databases are not supported in this browser.'); 
-   return; 
- } 
-// inserts the values into the 'lists' table 
- db.transaction(function(transaction) { 
-   transaction.executeSql(
-   "INSERT INTO 'lists' (name,budget) VALUES (?, ?);",[name, budget],nullHandler,errorHandler); 
-   });
-   return false; 
+function newList(name,budget) { 
+	if (!window.openDatabase) { 
+		alert('Databases are not supported in this browser.'); 
+		return; 
+	} 
+	// inserts the values into the 'lists' table 
+	db.transaction(function(transaction) { 
+		transaction.executeSql(
+			"INSERT INTO 'lists' (name,budget) VALUES (?, ?);",
+			[name, budget],
+			getLastInsertRowId(name,testt),
+			errorHandler
+		);
+	});
+	return; 
 } 
 
 function newProduct(code,liked,categorized) { 
@@ -62,8 +85,13 @@ function insertIntoListsProducts(quantity,scaned,products_id,lists_id) {
    return false; 
 } 
 
-
-function getProductsFromList(list_id){
+/*
+se usa para obtener los codigos de los productos asociados a esa lista.
+list_id es el id de la lista (captain obvious)
+onSuccess es la función que se llama cuando la transacción terminó, tiene un parametro: un json con los codigos obtenidos.
+ejemplo del json: {"codes":[12349,2134,213432]}
+*/
+function getProductsFromList(list_id,onSuccess){
 
 	var names = "";
 	
@@ -75,26 +103,26 @@ function getProductsFromList(list_id){
 	 db.transaction(function(transaction) { 
 	   transaction.executeSql('SELECT * FROM products p WHERE EXISTS(SELECT * FROM lists_products lp WHERE p.code = lp.products_id AND lp.lists_id = '+list_id+');', [], 
 	     function(transaction, result) { 
+			var json = "{\"codes\":[";
 	      if (result != null && result.rows != null) { 
 	        for (var i = 0; i < result.rows.length; i++) { 
 	          var row = result.rows.item(i);
-	          names +="<br/>"+row.code;    
+	          json +=row.code+",";    
 	        } 
-	        $("#result").html(names);
+	        json+="]}";
+			json = json.replace(",]","]");
+			onSuccess(json);
 	      } 
 	     },errorHandler); 
 	 },errorHandler,nullHandler); 
 	
 }
 
-//select *
-//from 
-
-
 //insert into lists_products values (?,?,id_list,id_product)
 
-function getListsNames(){
 
+function getListsNames(onSuccess){
+	
 	var names = "";
 	
 	if (!window.openDatabase) { 
@@ -105,12 +133,16 @@ function getListsNames(){
 	 db.transaction(function(transaction) { 
 	   transaction.executeSql('SELECT name,id FROM lists;', [], 
 	     function(transaction, result) { 
+			var json = "{\"lists\":[";
 	      if (result != null && result.rows != null) { 
 	        for (var i = 0; i < result.rows.length; i++) { 
 	          var row = result.rows.item(i);
+			  json +="["+row.id+",\""+row.name+"\"],";   
 	          names +="<a href='list.html?id="+row.id+"&name="+row.name+"'>" +row.name + "<a><br/>";    
 	        } 
-	        $("#result").html(names);
+	        json+="]}";
+			json = json.replace(",]}","]}");
+			onSuccess(json);
 	      } 
 	     },errorHandler); 
 	 },errorHandler,nullHandler); 

@@ -7,7 +7,11 @@
 		<script type="text/javascript" charset="utf-8" src="scripts/jquery.min.js"></script> 
 		
 		<script type="text/javascript" charset="utf-8">
-			getListsNames();
+		function onsuccess(json){
+			alert(json);
+			console.log(json);
+		}
+			getListsNames(onsuccess);
 		</script>
 	</head>
 	<body>
