@@ -1,14 +1,14 @@
-app.controllers.shoppingLists = new Ext.Controller({
+appCart.controllers.shoppingLists = new Ext.Controller({
     index: function(options) {
     	
-    	app.views.viewport.setActiveItem(
-            app.views.shoppingLists, options.animation
+    	appCart.views.viewport.setActiveItem(
+            appCart.views.shoppingLists, options.animation
         );
         
     },
     "new": function(options) {
-    	app.views.viewport.setActiveItem(
-    		app.views.newList, options.animation
+    	appCart.views.viewport.setActiveItem(
+    		appCart.views.newList, options.animation
     	);
     },
     create: function(options) {

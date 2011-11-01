@@ -1,4 +1,4 @@
-app.views.ShoppingLists = Ext.extend(Ext.Panel, {
+appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
     
     layout: 'fit',
     dockedItems: [{
@@ -11,7 +11,7 @@ app.views.ShoppingLists = Ext.extend(Ext.Panel, {
                 listeners: {
                     'tap': function () {
                         Ext.dispatch({
-                           controller: app.controllers.shoppingCart,
+                           controller: appCart.controllers.shoppingCart,
                            action: 'index'
                         });
                     }
@@ -25,7 +25,7 @@ app.views.ShoppingLists = Ext.extend(Ext.Panel, {
                 listeners: {
                     'tap': function () {
                         Ext.dispatch({
-                           controller: app.controllers.shoppingLists,
+                           controller: appCart.controllers.shoppingLists,
                            action: 'new'
                         });
                     }
@@ -35,6 +35,6 @@ app.views.ShoppingLists = Ext.extend(Ext.Panel, {
     }],
     items: [],
     initComponent: function() {
-        app.views.ShoppingLists.superclass.initComponent.apply(this, arguments);
+        appCart.views.ShoppingLists.superclass.initComponent.apply(this, arguments);
     }
 });

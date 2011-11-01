@@ -1,5 +1,5 @@
 Ext.regApplication({
-    name: 'app',
+    name: 'appCart',
     launch: function() {
         this.launched = true;
         this.mainLaunch();

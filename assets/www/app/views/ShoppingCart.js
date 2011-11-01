@@ -1,4 +1,4 @@
-app.views.ShoppingCart = Ext.extend(Ext.Panel, {
+appCart.views.ShoppingCart = Ext.extend(Ext.Panel, {
     
     layout: 'fit',
     dockedItems: [{
@@ -11,7 +11,7 @@ app.views.ShoppingCart = Ext.extend(Ext.Panel, {
                 listeners: {
                     'tap': function () {
                         Ext.dispatch({
-                           controller: app.controllers.shoppingCart,
+                           controller: appCart.controllers.shoppingCart,
                            action: 'index'
                         });
                     }
@@ -19,13 +19,13 @@ app.views.ShoppingCart = Ext.extend(Ext.Panel, {
             },
             {xtype:'spacer'},
             {
-                id: 'view_shopping_cart',
+                id: 'scan_product',
                 text: 'Escanear',
                 ui: 'action',
                 listeners: {
                     'tap': function () {
                         Ext.dispatch({
-                           controller: app.controllers.shoppingCart,
+                           controller: appCart.controllers.shoppingCart,
                            action: 'scanProduct'
                         });
                     }
@@ -36,6 +36,6 @@ app.views.ShoppingCart = Ext.extend(Ext.Panel, {
     items: [],
     html: 'Aqui se va la lista y el presupuesto y esas ondas',
     initComponent: function() {
-        app.views.ShoppingCart.superclass.initComponent.apply(this, arguments);
+        appCart.views.ShoppingCart.superclass.initComponent.apply(this, arguments);
     }
 });

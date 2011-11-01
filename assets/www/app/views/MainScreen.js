@@ -1,4 +1,4 @@
-app.views.MainScreen = Ext.extend(Ext.Panel, {
+appCart.views.MainScreen = Ext.extend(Ext.Panel, {
     layout: {
     	type: 'vbox',
     	pack: 'center',
@@ -14,7 +14,7 @@ app.views.MainScreen = Ext.extend(Ext.Panel, {
     		listeners: {
     			'tap': function () {
 		            Ext.dispatch({
-		                controller: app.controllers.shoppingLists,
+		                controller: appCart.controllers.shoppingLists,
 		                action: 'index',
 		                animation: {type:'slide', direction:'right'}
 		            });
@@ -30,7 +30,7 @@ app.views.MainScreen = Ext.extend(Ext.Panel, {
     		listeners: {
     			'tap': function () {
 		            Ext.dispatch({
-		                controller: app.controllers.shoppingCart,
+		                controller: appCart.controllers.shoppingCart,
 		                action: 'viewItems',
 		                animation: {type:'slide', direction:'right'}
 		            });
@@ -41,6 +41,6 @@ app.views.MainScreen = Ext.extend(Ext.Panel, {
     	
     ],
     initComponent: function() {
-        app.views.MainScreen.superclass.initComponent.apply(this, arguments);
+        appCart.views.MainScreen.superclass.initComponent.apply(this, arguments);
     }
 });

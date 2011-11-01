@@ -1,4 +1,4 @@
-app.views.NewList = Ext.extend(Ext.form.FormPanel, {
+appCart.views.NewList = Ext.extend(Ext.form.FormPanel, {
     dockedItems: [{
         xtype: 'toolbar',
         title: 'New Contact',
@@ -9,7 +9,7 @@ app.views.NewList = Ext.extend(Ext.form.FormPanel, {
                 listeners: {
                     'tap': function () {
                         Ext.dispatch({
-                           controller: app.controllers.shoppingLists,
+                           controller: appCart.controllers.shoppingLists,
                            action: 'index'
                         });
                     }

@@ -1,34 +1,34 @@
-app.views.Viewport = Ext.extend(Ext.Panel, {
+appCart.views.Viewport = Ext.extend(Ext.Panel, {
     fullscreen: true,
     layout: 'card',
     cardSwitchAnimation: 'slide',
     initComponent: function() {
-        //put instances of cards into app.views namespace
-        Ext.apply(app.views, {
-        	mainScreen:	new app.views.MainScreen(),
-        	shoppingLists:	new app.views.ShoppingLists(),
+        //put instances of cards into appCart.views namespace
+        Ext.apply(appCart.views, {
+        	mainScreen:	new appCart.views.MainScreen(),
+        	shoppingLists:	new appCart.views.ShoppingLists(),
         	
-        	//chooseList: new app.views.ChooseList(),
-        	//showList: new app.views.ShowList(),
-        	shoppingCart: new app.views.ShoppingCart(),
-        	//productView: new app.views.ProductView(),
-        	productView: new app.views.ProductFail(),
-        	newList:	new app.views.NewList()
+        	//chooseList: new appCart.views.ChooseList(),
+        	//showList: new appCart.views.ShowList(),
+        	shoppingCart: new appCart.views.ShoppingCart(),
+        	//productView: new appCart.views.ProductView(),
+        	productFail: new appCart.views.ProductFail(),
+        	newList:	new appCart.views.NewList()
         });
         //put instances of cards into viewport
         Ext.apply(this, {
             items: [
-            	app.views.mainScreen,
-            	app.views.shoppingLists,
+            	appCart.views.mainScreen,
+            	appCart.views.shoppingLists,
             	
-            	//app.views.chooseList,
-            	//app.views.showList,
-            	app.views.shoppingCart,
-            	//app.views.productView,
-            	app.views.productFail,
-            	app.views.newList
+            	//appCart.views.chooseList,
+            	//appCart.views.showList,
+            	appCart.views.shoppingCart,
+            	//appCart.views.productView,
+            	appCart.views.productFail,
+            	appCart.views.newList
             ]
         });
-        app.views.Viewport.superclass.initComponent.apply(this, arguments);
+        appCart.views.Viewport.superclass.initComponent.apply(this, arguments);
     }
 });

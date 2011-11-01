@@ -1,4 +1,4 @@
-app.views.ProductView = Ext.extend(Ext.Panel, {
+appCart.views.ProductView = Ext.extend(Ext.Panel, {
     
     layout: 'fit',
     dockedItems: [{
@@ -11,7 +11,7 @@ app.views.ProductView = Ext.extend(Ext.Panel, {
                 listeners: {
                     'tap': function () {
                         Ext.dispatch({
-                           controller: app.controllers.shoppingCart,
+                           controller: appCart.controllers.shoppingCart,
                            action: 'scanProduct'
                         });
                     }
@@ -25,7 +25,7 @@ app.views.ProductView = Ext.extend(Ext.Panel, {
                 listeners: {
                     'tap': function () {
                         Ext.dispatch({
-                           controller: app.controllers.shoppingCart,
+                           controller: appCart.controllers.shoppingCart,
                            action: 'viewItems'
                         });
                     }
@@ -36,6 +36,6 @@ app.views.ProductView = Ext.extend(Ext.Panel, {
     items: [],
     html: '<br /><br /><h1>The product couldn\'t be scanned</h1>',
     initComponent: function() {
-        app.views.ProductView.superclass.initComponent.apply(this, arguments);
+        appCart.views.ProductView.superclass.initComponent.apply(this, arguments);
     }
 });
