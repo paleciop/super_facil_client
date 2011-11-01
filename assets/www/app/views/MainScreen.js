@@ -5,6 +5,8 @@ app.views.MainScreen = Ext.extend(Ext.Panel, {
     	align: 'stretch'
     },
     items: [
+    	{xtype:'spacer'}
+    	,
     	new Ext.Button({
     		text: 'Listas de compra',
     		ui: 'action',
@@ -19,11 +21,24 @@ app.views.MainScreen = Ext.extend(Ext.Panel, {
         		}
     		}
     	}),
+    	{xtype:'spacer'}
+    	,
     	new Ext.Button({
     		text: 'Realizar mi compra',
     		ui: 'action',
-    		centered: true
-    	})
+    		centered: true,
+    		listeners: {
+    			'tap': function () {
+		            Ext.dispatch({
+		                controller: app.controllers.shoppingCart,
+		                action: 'viewItems',
+		                animation: {type:'slide', direction:'right'}
+		            });
+        		}
+    		}
+    	}),
+    	{xtype:'spacer'}
+    	
     ],
     initComponent: function() {
         app.views.MainScreen.superclass.initComponent.apply(this, arguments);

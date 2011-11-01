@@ -7,11 +7,13 @@ app.controllers.shoppingLists = new Ext.Controller({
         
     },
     "new": function(options) {
-    	
+    	app.views.viewport.setActiveItem(
+    		app.views.newList, options.animation
+    	);
     },
     create: function(options) {
     	
-    },
+    },	
     show: function(options) {
     },
     edit: function(options) {
