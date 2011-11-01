@@ -1,4 +1,4 @@
-appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
+appCart.views.ViewList = Ext.extend(Ext.Panel, {
     
     layout: 'fit',
     dockedItems: [{
@@ -37,20 +37,20 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
     /*
      {
         xtype: 'list',
-        store: appCart.stores.shoppingLists,
+        store: appCart.stores.productList,
         itemTpl: '{name}',
         onItemDisclosure: function (record) {
             //Ext.dispatch({
             //    controller: app.controllers.shoppingLists,
             //    action: 'show',
-            //    id: record.getCode()
+            //    id: record.getId()
             //});
         }
     }
      */
     ],
     initComponent: function() {
-    	//appCart.stores.shoppingLists.load();
-        appCart.views.ShoppingLists.superclass.initComponent.apply(this, arguments);
+    	//appCart.stores.productList.load();
+        appCart.views.ViewList.superclass.initComponent.apply(this, arguments);
     }
 });

@@ -3,7 +3,7 @@ appCart.views.ShoppingCart = Ext.extend(Ext.Panel, {
     layout: 'fit',
     dockedItems: [{
         xtype: 'toolbar',
-        title: 'Producto',
+        title: 'Carrito',
         items: [
          	{
                 text: 'Inicio',
@@ -19,7 +19,6 @@ appCart.views.ShoppingCart = Ext.extend(Ext.Panel, {
             },
             {xtype:'spacer'},
             {
-                id: 'scan_product',
                 text: 'Escanear',
                 ui: 'action',
                 listeners: {

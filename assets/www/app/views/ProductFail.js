@@ -6,7 +6,7 @@ appCart.views.ProductFail = Ext.extend(Ext.Panel, {
         title: 'Producto',
         items: [
          	{
-                text: 'Escanear de nuevo',
+                text: 'Escanear',
                 ui: 'back',
                 listeners: {
                     'tap': function () {
