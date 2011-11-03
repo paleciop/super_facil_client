@@ -40,4 +40,3 @@ function allDataSelectHandler(transaction, results){
   }
 }
 getFavorites();
-alert(lists);

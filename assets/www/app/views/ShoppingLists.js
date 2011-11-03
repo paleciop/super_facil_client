@@ -34,10 +34,10 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
         ]
     }],
     items: [
-    /*
+    
      {
         xtype: 'list',
-        store: appCart.stores.shoppingLists,
+        store: favorites_store,
         itemTpl: '{name}',
         onItemDisclosure: function (record) {
             //Ext.dispatch({
@@ -47,9 +47,10 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
             //});
         }
     }
-     */
+     
     ],
     initComponent: function() {
+    	//favorites_store.load();
     	//appCart.stores.shoppingLists.load();
         appCart.views.ShoppingLists.superclass.initComponent.apply(this, arguments);
     }
