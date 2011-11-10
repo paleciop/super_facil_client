@@ -37,6 +37,17 @@ appCart.views.MainScreen = Ext.extend(Ext.Panel, {
         		}
     		}
     	}),
+    	{xtype:'spacer'},
+    	new Ext.Button({
+    		text: 'Debug Mode',
+    		ui: 'action',
+    		centered: true,
+    		listeners: {
+    			'tap': function () {
+		            window.location.href = 'debug.html';
+        		}
+    		}
+    	}),
     	{xtype:'spacer'}
     	
     ],
