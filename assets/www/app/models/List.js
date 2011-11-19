@@ -70,6 +70,29 @@ function listCallback(transaction, results){
 }
 
 /* UPDATE */
+function listUpdate(list_id, new_name, new_budget) {
+	var setStm = [];
+	var params = [];
+	
+	if (new_name) {
+		setStm.push('name = ?');
+		params.push(new_name);
+	}
+	if (typeof new_budget != 'undefined' && new_budget != null) {
+		setStm.push('budget = ?');
+		params.push(new_budget);
+	}
+	
+	if (setStm.length == 0)  {
+		return false;
+	}
+	
+	params.push(list_id);
+	db.transaction(function(transaction) {
+		transaction.executeSql("UPDATE list SET " + setStm.join() + ' WHERE id = ?', params,successHandler,errorHandler);
+	});
+	return false;
+}
 
 function rename(list_id,new_name){
 db.transaction(function(transaction) { 
