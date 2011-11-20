@@ -37,7 +37,7 @@ var DatabaseHelper = {
 		return true;
 	},
 	install: function() {
-		db.transaction(function(tx){ 
+		DatabaseHelper.db.transaction(function(tx){ 
 	
 			tx.executeSql( 
 				"CREATE TABLE IF NOT EXISTS 'lists' (" + 
@@ -72,7 +72,7 @@ var DatabaseHelper = {
 		});
 	},
 	uninstall: function() {
-		db.transaction(function(tx){
+		DatabaseHelper.db.transaction(function(tx){
 			tx.executeSql('DROP TABLE IF EXISTS DEMO');
 
 		},
@@ -83,6 +83,14 @@ var DatabaseHelper = {
 			console.log('DB - Database uninstalled successful');
 		});
 	
+	},
+	getLastInsertRowId : function(tx) {
+		var id = 0;
+		
+		tx.executeSql('SELECT last_insert_rowid() as id', [], function(transaction, result) {
+			id = result.rows.item(0).id;
+		});
+		return id;
 	}
 	
 }

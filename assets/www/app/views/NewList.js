@@ -17,12 +17,14 @@ appCart.views.NewList = Ext.extend(Ext.form.FormPanel, {
             },
             {xtype:'spacer'},
             {
-                id: 'new',
-                text: 'Nueva Lista',
+                text: 'Guardar',
                 ui: 'action',
                 listeners: {
                     'tap': function () {
-                        
+                    	var listNew = appCart.views.newList;
+                    	
+                        var list  = Ext.ModelMgr.create(listNew.getValues(),'appCart.models.List'); 
+                        list.save();
                     }
                 }
             }
@@ -30,11 +32,11 @@ appCart.views.NewList = Ext.extend(Ext.form.FormPanel, {
     }],
     submitOnAction: false,
     items: [{
-        name : 'listName',
+        name : 'name',
         label: 'Nombre',
         xtype: 'textfield'
     }, {
-        name : 'listBudget',
+        name : 'budget',
         label: 'Presupuesto',
         xtype: 'textfield'
     }]

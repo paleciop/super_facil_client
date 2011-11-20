@@ -6,6 +6,9 @@ Ext.regApplication({
     },
     mainLaunch: function() {
         //if (!device || !this.launched) {return;}
+        console.log('App - mainLaunch: Initializing App');
         this.views.viewport = new this.views.Viewport();
+        
+        DatabaseHelper.init();
     }
 });
