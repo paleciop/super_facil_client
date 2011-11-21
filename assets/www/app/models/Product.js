@@ -1,115 +1,121 @@
-/* CRUD FOR PRODUCTS TABLE*/
+Ext.data.ProxyMgr.registerType("productstorage", Ext.extend(Ext.data.Proxy, {
+	create : function(operation, callback, scope) {
+		var thisProxy = this;
 
-var shortName = 'WebSqlDB'; 
-var version = '1.0'; 
-var displayName = 'WebSqlDB'; 
-var maxSize = 512000; 
-var db = openDatabase(shortName, version, displayName,maxSize); 
-var products = [];
+		operation.setStarted();
 
-function errorHandler(transaction, error) { 
-	console.log('Error: ' + error.message + ' code: ' + error.code); 
-} 
+		for(var i = 0; i < operation.records.length; i++) {
+			var product = operation.records[i].data;
 
-function successHandler(transaction){
-	console.log('Great success!');
-}
+			DatabaseHelper.db.transaction(function(tx) {
+				tx.executeSql("INSERT INTO 'products' (code,liked,categorized) VALUES (?, ?);", [product.name, product.budget], function() {
+					operation.setCompleted();
+					operation.setSuccessful();
+					//finish with callback
+					if( typeof callback == 'function') {
+						callback.call(scope || thisProxy, operation);
+					}
+				}, function(err) {
+					operation.setCompleted();
+					console.log('DB - error saving product - ' + err.message);
+				});
+				//operation.records[i].data.id = DatabaseHelper.getLastInsertRowId(tx);
+			});
+		}
+	},
+	read : function(operation, callback, scope) {
+		var thisProxy = this;
 
-/* CREATE */
+		DatabaseHelper.db.transaction(function(tx) {
+			tx.executeSql('SELECT * FROM products;', [], function(transaction, results) {
+				var products = [];
 
-function newProduct(code,liked,categorized) {
- 
-	if (!window.openDatabase) { 
-    	alert('Databases are not supported in this browser.'); 
-    	return; 
-    } 
-// inserts the values into the 'products' table 
-  db.transaction(function(transaction) { 
-    transaction.executeSql("INSERT INTO 'products' (code,liked,categorized) VALUES (?, ?, ?);",[code,liked, categorized?1:0],errorHandler); 
-  });
-  return false; 
-} 
+				for(var i = 0; i < results.rows.length; i++) {
+					row = results.rows.item(i);
+					var product = new thisProxy.model({
+						id : row['id'],
+						name : row['name'],
+						budget : row['budget']
+					})
+					products.push(product);
+				}
 
-/* READ */
+				operation.resultSet = new Ext.data.ResultSet({
+					records : products,
+					total : products.length,
+					loaded : true
+				});
+				//announce success
+				operation.setSuccessful();
+				operation.setCompleted();
+				//finish with callback
+				if( typeof callback == "function") {
+					callback.call(scope || thisProxy, operation);
+				}
+			}, function(err) {
+				console.log('Proxy productstorage - failed to fetch products. Error ' + err.message);
+			});
+		});
+	},
+	update : function(operation, callback, scope) {
+		var thisProxy = this;
 
-Ext.regModel('Products', {
-    fields: [
-        {name: 'code',      type: 'int'},
-        {name: 'liked',    type: 'int'},
-        {name: 'categorized',   type: 'int'}
-    ]
+		operation.setStarted();
+
+		for(var i = 0; i < operation.records.length; i++) {
+			var product = operation.records[i].data;
+
+			DatabaseHelper.db.transaction(function(tx) {
+				tx.executeSql("UPDATE 'products' SET name = ?, budget = ? WHERE id = ?;", [product.name, product.budget, product.id], function() {
+					operation.setCompleted();
+					operation.setSuccessful();
+					//finish with callback
+					if( typeof callback == 'function') {
+						callback.call(scope || thisProxy, operation);
+					}
+				}, function(err) {
+					operation.setCompleted();
+					console.log('DB - error saving product - ' + err.message);
+				});
+				
+			});
+		}
+	},
+	destroy : function(operation, callback, scope) {
+		var records = operation.records, length = records.length;
+
+		//newIds is a copy of ids, from which we remove the destroyed records
+		
+
+		for( i = 0; i < length; i++) {
+			DatabaseHelper.db.transaction(function(tx){
+				tx.executeSql("DELETE FROM products WHERE id=?;", [records.data.id]);
+			});
+		}
+
+		if( typeof callback == 'function') {
+			callback.call(scope || this, operation);
+		}
+
+	}
+}));
+
+appCart.models.Product = Ext.regModel('appCart.models.Product', {
+	fields : [{
+		name : 'id',
+		type : 'int'
+	}, {
+		name : 'name',
+		type : 'string'
+	}, {
+		name : 'budget',
+		type : 'int'
+	}],
+	proxy : {
+		type : "productstorage"
+	}
 });
 
-var products_store = new Ext.data.Store({
-  model  : 'Products',
-  data: products
+appCart.stores.products = new Ext.data.Store({
+	model : 'appCart.models.Product',
 });
-// Get the data from the database and call the function allDataSelectHandler when finished
-function getProducts(){
-  db.transaction(
-      function (transaction) {
-          transaction.executeSql('SELECT * FROM products;', [],  productsCallback);
-      }
-  );
-}
-function productsCallback(transaction, results){
- if (results.rows.length != 0){
-    // Loop through the records and add them to the store
-    for (var i=0; i < results.rows.length; i++){
-          row = results.rows.item(i);
-          products_store.add({'code':row['code'],'liked':row['liked'],'categorized':row['categorized']});
-     }
-  }
-}
-
-/* UPDATE */
-
-function like(product_code){
-  db.transaction(function(transaction) { 
-     transaction.executeSql("UPDATE products SET liked=1 WHERE code=?;",[product_code],successHandler,errorHandler);
-  });
-  return false; 	   
-}
-
-/*
-function unlike(product_code){
-  db.transaction(function(transaction) { 
-     transaction.executeSql(
-     "UPDATE products SET liked=0 WHERE code=?;",[product_code],successHandler,errorHandler); 
-  });
-  return false; 	  
-}
-*/
-
-function categorize(product_code){
-db.transaction(function(transaction) { 
-   transaction.executeSql(
-   "UPDATE products SET categorized=1 WHERE code=?;",[product_code],successHandler,errorHandler); 
-   });
-   return false; 	   
-}
-
-function deCategorize(product_code){
-db.transaction(function(transaction) { 
-   transaction.executeSql(
-   "UPDATE products SET categorized=0 WHERE code=?;",[product_code],successHandler,errorHandler); 
-   });
-   return false; 	   
-}
-
-/* DELETE */
-
-function deleteProduct(product_code){
-db.transaction(function(transaction) { 
-   transaction.executeSql(
-   "DELETE FROM products WHERE code=?;",[product_code],successHandler,errorHandler); 
-   });
-   return false; 	   
-}
-
-//testing
-newProduct(12345,4,true);
-like(12349,6);
-categorize(12349);
-deleteProduct(2457234);
-getProducts();

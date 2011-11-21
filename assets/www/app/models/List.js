@@ -61,11 +61,11 @@ Ext.data.ProxyMgr.registerType("liststorage", Ext.extend(Ext.data.Proxy, {
 		var thisProxy = this;
 
 		operation.setStarted();
-
+		DatabaseHelper.db.transaction(function(tx) {
 		for(var i = 0; i < operation.records.length; i++) {
 			var list = operation.records[i].data;
 
-			DatabaseHelper.db.transaction(function(tx) {
+			
 				tx.executeSql("UPDATE 'lists' SET name = ?, budget = ? WHERE id = ?;", [list.name, list.budget, list.id], function() {
 					operation.setCompleted();
 					operation.setSuccessful();
@@ -77,22 +77,19 @@ Ext.data.ProxyMgr.registerType("liststorage", Ext.extend(Ext.data.Proxy, {
 					operation.setCompleted();
 					console.log('DB - error saving list - ' + err.message);
 				});
-				
-			});
 		}
+		});
 	},
 	destroy : function(operation, callback, scope) {
 		var records = operation.records, length = records.length;
 
 		//newIds is a copy of ids, from which we remove the destroyed records
 		
-
-		for( i = 0; i < length; i++) {
-			DatabaseHelper.db.transaction(function(tx){
+		DatabaseHelper.db.transaction(function(tx){
+			for(var i = 0; i < length; i++) {
 				tx.executeSql("DELETE FROM lists WHERE id=?;", [records.data.id]);
-			});
-		}
-
+			}
+		});
 		if( typeof callback == 'function') {
 			callback.call(scope || this, operation);
 		}

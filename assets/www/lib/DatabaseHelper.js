@@ -31,8 +31,9 @@ var DatabaseHelper = {
 			console.log('DB - Failed to load database.');
 			return false;
 		}
-		
+		DatabaseHelper.uninstall();
 		DatabaseHelper.install();
+		
 		
 		return true;
 	},
@@ -47,10 +48,12 @@ var DatabaseHelper = {
 			);  
 			tx.executeSql( 
 				"CREATE TABLE IF NOT EXISTS 'products' (" +
-				"'code'  INTEGER NOT NULL," +
+				"'bar_code'  INTEGER NOT NULL," +
+				"'name' TEXT NOT NULL," +
 				"'liked'  INTEGER NOT NULL DEFAULT 0," + 
 				"'categorized'  INTEGER NOT NULL DEFAULT 0," + 
-				"PRIMARY KEY ('code' ASC),CONSTRAINT 'code' UNIQUE ('code' ASC) ON CONFLICT ABORT);"
+				"PRIMARY KEY ('bar_code' ASC)," +
+				"CONSTRAINT 'un_products_bar_code' UNIQUE ('bar_code' ASC) ON CONFLICT ABORT);"
 			);
 			tx.executeSql( 
 				"CREATE TABLE IF NOT EXISTS 'lists_products' (" +
@@ -59,7 +62,7 @@ var DatabaseHelper = {
 				"'products_id'  INTEGER NOT NULL," +
 				"'lists_id'  INTEGER NOT NULL," +
 				"PRIMARY KEY ('products_id', 'lists_id')," +
-				"CONSTRAINT 'products_id' FOREIGN KEY ('products_id') REFERENCES 'products' ('code') ON DELETE CASCADE ON UPDATE CASCADE," +
+				"CONSTRAINT 'products_id' FOREIGN KEY ('products_id') REFERENCES 'products' ('bar_code') ON DELETE CASCADE ON UPDATE CASCADE," +
 				"CONSTRAINT 'lists_id' FOREIGN KEY ('lists_id') REFERENCES 'lists' ('id') ON DELETE CASCADE ON UPDATE CASCADE," +
 				"CONSTRAINT 'id' UNIQUE ('lists_id', 'products_id') ON CONFLICT ABORT);"
 			);
@@ -73,8 +76,9 @@ var DatabaseHelper = {
 	},
 	uninstall: function() {
 		DatabaseHelper.db.transaction(function(tx){
-			tx.executeSql('DROP TABLE IF EXISTS DEMO');
-
+			tx.executeSql('DROP TABLE IF EXISTS lists');
+			tx.executeSql('DROP TABLE IF EXISTS lists_products');
+			tx.executeSql('DROP TABLE IF EXISTS products');
 		},
 		function(err){
 			console.log('DB - Failed to uninstall database, Error: ' + err.message + '. Code: ' + err.code);
