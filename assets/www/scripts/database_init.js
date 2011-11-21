@@ -38,6 +38,13 @@ function onBodyLoad(){
 		"CREATE TABLE IF NOT EXISTS 'lists' ('id'  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL COLLATE BINARY  DEFAULT 0,'name'  TEXT NOT NULL,'budget'  INTEGER NOT NULL,UNIQUE ('id' ASC) ON CONFLICT ABORT);"
 		//sql end
 		,nullHandler,nullHandler);  },errorHandler,successCallBack);
+	db.transaction(function(tx){ 
+	
+		tx.executeSql( 
+		//sql init
+		"CREATE TABLE IF NOT EXISTS 'categories' ('id'  INTEGER PRIMARY KEY NOT NULL COLLATE BINARY ,'name'  TEXT NOT NULL,UNIQUE ('id' ASC) ON CONFLICT ABORT);"
+		//sql end
+		,nullHandler,nullHandler);  },errorHandler,successCallBack);	
 	db.transaction(function(tx){ 	
 		tx.executeSql( 
 		//sql init
