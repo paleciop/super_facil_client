@@ -28,7 +28,6 @@ import com.phonegap.api.PluginResult;
 public class BarcodeScanner extends Plugin {
 	public static final int REQUEST_CODE = 0x0ba7c0de;
 
-
 	public static final String defaultInstallTitle = "Install Barcode Scanner?";
 	public static final String defaultInstallMessage = "This requires the free Barcode Scanner app. Would you like to install it now?";
 	public static final String defaultYesString = "Yes";
