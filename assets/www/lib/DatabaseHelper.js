@@ -55,6 +55,11 @@ var DatabaseHelper = {
 				"PRIMARY KEY ('bar_code' ASC)," +
 				"CONSTRAINT 'un_products_bar_code' UNIQUE ('bar_code' ASC) ON CONFLICT ABORT);"
 			);
+			
+			tx.executeSql( 
+				"CREATE TABLE IF NOT EXISTS 'categories' ('id'  INTEGER PRIMARY KEY NOT NULL COLLATE BINARY ,'name'  TEXT NOT NULL,UNIQUE ('id' ASC) ON CONFLICT ABORT);"
+			);
+			
 			tx.executeSql( 
 				"CREATE TABLE IF NOT EXISTS 'lists_products' (" +
 				"'quantity'  INTEGER NOT NULL DEFAULT 0," +
