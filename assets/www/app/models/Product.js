@@ -1,4 +1,4 @@
-Ext.data.ProxyMgr.registerType("productstorage", Ext.extend(Ext.data.Proxy, {
+/* Ext.data.ProxyMgr.registerType("productstorage", Ext.extend(Ext.data.Proxy, {
 	create : function(operation, callback, scope) {
 		var thisProxy = this;
 
@@ -99,23 +99,35 @@ Ext.data.ProxyMgr.registerType("productstorage", Ext.extend(Ext.data.Proxy, {
 
 	}
 }));
-
+*/
 appCart.models.Product = Ext.regModel('appCart.models.Product', {
 	fields : [{
-		name : 'id',
+		name : 'bar_code',
 		type : 'int'
 	}, {
 		name : 'name',
 		type : 'string'
 	}, {
-		name : 'budget',
+		name : 'url_image',
+		type : 'string'
+	},{
+		name : 'likes',
+		type : 'int'
+	},{
+		name : 'category_id',
 		type : 'int'
 	}],
 	proxy : {
-		type : "productstorage"
+		type : 'ajax',
+		url: $host + $services['getProduct'],
+		reader: {
+			root: 'products',
+			type: 'json'
+		}
 	}
 });
 
 appCart.stores.products = new Ext.data.Store({
 	model : 'appCart.models.Product',
 });
+

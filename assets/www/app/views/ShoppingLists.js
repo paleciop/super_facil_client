@@ -37,7 +37,7 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
     
      {
         xtype: 'list',
-        store: appCart.stores.lists,
+        store: appCart.stores.products,
         itemTpl: '{name}',
         onItemDisclosure: function (record) {
             //Ext.dispatch({
