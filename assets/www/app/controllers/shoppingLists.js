@@ -1,7 +1,7 @@
 appCart.controllers.shoppingLists = new Ext.Controller({
     index: function(options) {
     	console.log('View - Loading ShoppingLists view');
-    	appCart.stores.products.load();
+    	appCart.stores.lists.load();
     	appCart.views.viewport.setActiveItem(
             appCart.views.shoppingLists, options.animation
         );

@@ -32,7 +32,7 @@ var DatabaseHelper = {
 			return false;
 		}
 		//DatabaseHelper.uninstall();
-		//DatabaseHelper.install();
+		DatabaseHelper.install();
 		
 		
 		return true;
