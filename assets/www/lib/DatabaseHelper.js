@@ -1,3 +1,8 @@
+var $list = '0';
+
+function setVal(val){
+	$list = val;
+}
 var DatabaseHelper = {
 	db: null,
 	dbSupported: false,

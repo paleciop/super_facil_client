@@ -1,9 +1,10 @@
 appCart.views.MyList = Ext.extend(Ext.Panel, {
     
     layout: 'fit',
+    
     dockedItems: [{
         xtype: 'toolbar',
-        title: 'Lista',
+        title: 'Lista ',
         items: [
          	{
                 text: 'Regresar',
@@ -17,26 +18,14 @@ appCart.views.MyList = Ext.extend(Ext.Panel, {
                     }
                 }
             },
-            {xtype:'spacer'},
-            {
-                id: 'new',
-                text: 'Nueva Lista',
-                ui: 'action',
-                listeners: {
-                    'tap': function () {
-                        Ext.dispatch({
-                           controller: appCart.controllers.shoppingLists,
-                           action: 'new'
-                        });
-                    }
-                }
-            }
+            {xtype:'spacer'}
+            
         ]
     }],
     items: [
      {
         xtype: 'list',
-        store: appCart.stores.lists,
+        store: appCart.stores.categories,
         itemTpl: '{name} Err',
         onItemDisclosure: function (record) {
             //Ext.dispatch({
@@ -47,9 +36,14 @@ appCart.views.MyList = Ext.extend(Ext.Panel, {
         }
     }
     ],
+    html: 'hola: ' + $list,
+    setId: function(id) {
+    	appCart.views.MyList.myId = id;
+    	console.log("AAA: "+ this.myId);
+    },
     initComponent: function() {
     	//appCart.stores.productList.load();
-    	
+    	console.log("init: "+$list);
     	appCart.views.MyList.superclass.initComponent.apply(this, arguments);
     }
 });
