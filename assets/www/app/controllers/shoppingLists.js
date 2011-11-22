@@ -14,6 +14,10 @@ appCart.controllers.shoppingLists = new Ext.Controller({
     	);
     },	
     show: function(options) {
+    	console.log('View - Loading List view');
+    	appCart.views.viewport.setActiveItem(
+    		appCart.views.myList, options.animation
+    	);	
     },
     edit: function(options) {
     },

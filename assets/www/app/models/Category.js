@@ -65,7 +65,7 @@ Ext.data.ProxyMgr.registerType("categorystorage", Ext.extend(Ext.data.Proxy, {
 			var category = operation.records[i].data;
 
 			
-				tx.executeSql("UPDATE 'categories' SET name = ? WHERE id = ?;", [category.name category.id], function() {
+				tx.executeSql("UPDATE 'categories' SET name = ? WHERE id = ?;", [category.name, category.id], function() {
 					operation.setCompleted();
 					operation.setSuccessful();
 					//finish with callback
@@ -104,9 +104,14 @@ appCart.models.Category = Ext.regModel('appCart.models.Category', {
 		name : 'name',
 		type : 'string'
 	}],
-	proxy : {
-		type : "categorystorage"
-	}
+	proxy : { 	
+		type : 'ajax',		
+		url: $host + $services['getCategory'],
+		reader: {
+			root: 'categories',
+			type: 'json'
+		}	
+   }
 });
 
 appCart.stores.categories = new Ext.data.Store({
