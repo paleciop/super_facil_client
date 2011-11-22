@@ -1,7 +1,7 @@
 appCart.views.NewList = Ext.extend(Ext.form.FormPanel, {
     dockedItems: [{
         xtype: 'toolbar',
-        title: 'New Contact',
+        title: 'Nueva Lista',
         items: [
          	{
                 text: 'Regresar',

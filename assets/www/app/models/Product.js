@@ -6,7 +6,7 @@ Ext.data.ProxyMgr.registerType("productstorage", Ext.extend(Ext.data.Proxy, {
 
 		for(var i = 0; i < operation.records.length; i++) {
 			var product = operation.records[i].data;
-
+			
 			DatabaseHelper.db.transaction(function(tx) {
 				tx.executeSql("INSERT INTO 'products' (code,liked,categorized) VALUES (?, ?);", [product.name, product.budget], function() {
 					operation.setCompleted();

@@ -38,14 +38,15 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
      {
         xtype: 'list',
         store: appCart.stores.lists,
-        itemTpl: '{name}',
+        itemTpl: '{name}{budget}',
         onItemDisclosure: function (record) {
-            //Ext.dispatch({
-            //    controller: app.controllers.shoppingLists,
-            //    action: 'show',
-            //    id: record.getCode()
-            //});
-        }
+        	console.log(record.get('name'));
+            Ext.dispatch({
+                controller: appCart.controllers.shoppingLists,
+                action: 'show',
+                id: record.get('id')
+            });
+        },
     }
     
      

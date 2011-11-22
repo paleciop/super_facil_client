@@ -13,7 +13,8 @@ appCart.views.Viewport = Ext.extend(Ext.Panel, {
         	shoppingCart: new appCart.views.ShoppingCart(),
         	//productView: new appCart.views.ProductView(),
         	productFail: new appCart.views.ProductFail(),
-        	newList:	new appCart.views.NewList()
+        	newList:	new appCart.views.NewList(),
+        	myList: new appCart.views.MyList()
         });
         //put instances of cards into viewport
         Ext.apply(this, {
@@ -26,7 +27,8 @@ appCart.views.Viewport = Ext.extend(Ext.Panel, {
             	appCart.views.shoppingCart,
             	//appCart.views.productView,
             	appCart.views.productFail,
-            	appCart.views.newList
+            	appCart.views.newList,
+            	appCart.views.myList
             ]
         });
         appCart.views.Viewport.superclass.initComponent.apply(this, arguments);

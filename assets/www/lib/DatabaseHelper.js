@@ -31,8 +31,8 @@ var DatabaseHelper = {
 			console.log('DB - Failed to load database.');
 			return false;
 		}
-		DatabaseHelper.uninstall();
-		DatabaseHelper.install();
+		//DatabaseHelper.uninstall();
+		//DatabaseHelper.install();
 		
 		
 		return true;
