@@ -57,7 +57,9 @@ var DatabaseHelper = {
 			);
 			
 			tx.executeSql( 
-				"CREATE TABLE IF NOT EXISTS 'categories' ('id'  INTEGER PRIMARY KEY NOT NULL COLLATE BINARY ,'name'  TEXT NOT NULL,UNIQUE ('id' ASC) ON CONFLICT ABORT);"
+				"CREATE TABLE IF NOT EXISTS 'categories' (" +
+				"'id'  INTEGER PRIMARY KEY NOT NULL COLLATE BINARY ," +
+				"'name'  TEXT NOT NULL,UNIQUE ('id' ASC) ON CONFLICT ABORT);"
 			);
 			
 			tx.executeSql( 
