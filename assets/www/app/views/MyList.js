@@ -3,7 +3,7 @@ appCart.views.MyList = Ext.extend(Ext.Panel, {
     layout: 'fit',
     dockedItems: [{
         xtype: 'toolbar',
-        title: 'Mis listas',
+        title: 'Lista',
         items: [
          	{
                 text: 'Regresar',
@@ -11,7 +11,7 @@ appCart.views.MyList = Ext.extend(Ext.Panel, {
                 listeners: {
                     'tap': function () {
                         Ext.dispatch({
-                           controller: appCart.controllers.shoppingCart,
+                           controller: appCart.controllers.shoppingLists,
                            action: 'index'
                         });
                     }
@@ -37,7 +37,7 @@ appCart.views.MyList = Ext.extend(Ext.Panel, {
      {
         xtype: 'list',
         store: appCart.stores.lists,
-        itemTpl: '{name}',
+        itemTpl: '{name} Err',
         onItemDisclosure: function (record) {
             //Ext.dispatch({
             //    controller: app.controllers.shoppingLists,
