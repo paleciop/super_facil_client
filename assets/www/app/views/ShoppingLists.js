@@ -38,10 +38,77 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
      {
         xtype: 'list',
         store: appCart.stores.lists,
-        itemTpl: '{name}{budget}',
+        listeners: {
+	        itemTap: function(thiss,index,itemss,e) {
+	        	var currentRecord = thiss.getStore().getAt(index);
+	        	var recordID = currentRecord.get('id');
+	        	console.log("id:"+currentRecord.get('id'));
+	        	console.log("NAME: "+currentRecord.get('name'));
+	        	console.log("index: "+index);
+	        	console.log('tap!')
+	            if (!this.actions) {
+	                this.actions = new Ext.ActionSheet({
+	                    items: [
+	                    {
+	                        text: 'Ver',
+	                        scope : this,
+	                        handler : function(){
+	                        	Ext.dispatch({
+                           			controller: appCart.controllers.shoppingLists,
+                           			action: 'showProducts',
+                           			
+                           			name: currentRecord.get('name')
+                           			
+                        		});
+	                        	//console.log(this.getActiveItem());
+	                        	// var activeList = thiss.getActiveItem();
+            					//recordd = activeList.getSelectedRecords()[0];
+								//console.log(recordd.get('name'));
+								this.actions.hide();
+	                        }
+	                    },{
+	                        text: 'Borrar',
+	                        ui: 'decline',
+	                        scope : this,
+	                        handler : function(){
+	                        	
+                    			console.log(currentRecord.get('id'));
+                    			appCart.models.List.destroy(currentRecord);
+	                        	//console.log(this.getActiveItem());
+	                        	// var activeList = thiss.getActiveItem();
+            					//recordd = activeList.getSelectedRecords()[0];
+								//console.log(recordd.get('name'));
+								this.actions.hide();
+	                        }
+	                    },{
+	                        text : 'Editar',
+	                        scope : this,
+	                        handler : function(){
+	                        	Ext.dispatch({
+                           			controller: appCart.controllers.shoppingLists,
+                           			action: 'showCategories',
+                           			
+                        		});
+                        		this.actions.hide();
+	                        },
+	                        
+	                    },{
+	                        text : 'Cancel',
+	                        scope : this,
+	                        handler : function(){
+	                            this.actions.hide();
+	                        }
+	                    }]
+	                });
+	            }
+            
+            this.actions.show();
+            }
+        },
+        itemTpl: '{name}{id}',
         onItemDisclosure: function (record) {
         	console.log(record.get('name'));
-        	setVal(record.get('id'));
+        	
         	$list = record.get('id');
         	console.log("list "+$list);
             Ext.dispatch({
