@@ -32,9 +32,22 @@ appCart.views.ShoppingCart = Ext.extend(Ext.Panel, {
             }
         ]
     }],
-    items: [],
-    html: 'Aqui se va la lista y el presupuesto y esas ondas',
+    items: [{
+        xtype: 'list',
+        store: appCart.stores.cartProducts,
+        itemTpl: '{name}',
+        onItemDisclosure: function (record) {
+        	console.log(record.get('name'));
+            Ext.dispatch({
+                controller: appCart.controllers.shoppingCart,
+                action: 'productView',
+                bar_code: record.get('bar_code')
+            });
+        },
+    }
+    ],
     initComponent: function() {
+    	appCart.stores.cartProducts.load();
         appCart.views.ShoppingCart.superclass.initComponent.apply(this, arguments);
     }
 });
