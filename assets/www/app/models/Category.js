@@ -1,14 +1,14 @@
 Ext.data.ProxyMgr.registerType("categorystorage", Ext.extend(Ext.data.Proxy, {
 	create : function(operation, callback, scope) {
 		var thisProxy = this;
-
+	console.log("ENTERED!!");
 		operation.setStarted();
 
 		for(var i = 0; i < operation.records.length; i++) {
 			var category = operation.records[i].data;
-
+			console.log("data;::: "+category.name)
 			DatabaseHelper.db.transaction(function(tx) {
-				tx.executeSql("INSERT INTO 'categories' (id,name) VALUES (?, ?);", [category.id, category.budget], function() {
+				tx.executeSql("INSERT INTO 'categories' (id,name) VALUES (?, ?);", [category.id, category.name], function() {
 					operation.setCompleted();
 					operation.setSuccessful();
 					//finish with callback
@@ -104,16 +104,19 @@ appCart.models.Category = Ext.regModel('appCart.models.Category', {
 		name : 'name',
 		type : 'string'
 	}],
-	proxy : { 	
-		type : 'ajax',		
-		url: $host + $services['getCategory'],
-		reader: {
-			root: 'categories',
-			type: 'json'
-		}	
-   }
+	proxy : {
+		type : "categorystorage"
+	}
 });
-
+console.log("AAAAAOAOAOAOAOA!!");
 appCart.stores.categories = new Ext.data.Store({
 	model : 'appCart.models.Category',
+	data : [
+		{id:'1',name:'cereales'},
+		{id:'2',name:'lacteos'},
+		{id:'3',name:'bebidas'},
+		{id:'4',name:'golosinas'},
+		{id:'5',name:'otros'}
+	]
 });
+

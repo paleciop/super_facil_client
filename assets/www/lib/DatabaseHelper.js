@@ -1,8 +1,6 @@
 var $list = '0';
 
-function setVal(val){
-	$list = val;
-}
+
 var DatabaseHelper = {
 	db: null,
 	dbSupported: false,
@@ -63,7 +61,7 @@ var DatabaseHelper = {
 			
 			tx.executeSql( 
 				"CREATE TABLE IF NOT EXISTS 'categories' (" +
-				"'id'  INTEGER PRIMARY KEY NOT NULL COLLATE BINARY ," +
+				"'id'  INTEGER PRIMARY KEY NOT NULL ," +
 				"'name'  TEXT NOT NULL,UNIQUE ('id' ASC) ON CONFLICT ABORT);"
 			);
 			
@@ -91,6 +89,8 @@ var DatabaseHelper = {
 			tx.executeSql('DROP TABLE IF EXISTS lists');
 			tx.executeSql('DROP TABLE IF EXISTS lists_products');
 			tx.executeSql('DROP TABLE IF EXISTS products');
+			tx.executeSql('DROP TABLE IF EXISTS categories');
+			
 		},
 		function(err){
 			console.log('DB - Failed to uninstall database, Error: ' + err.message + '. Code: ' + err.code);
@@ -110,3 +110,14 @@ var DatabaseHelper = {
 	}
 	
 }
+/*
+DatabaseHelper.db.transaction(function(tx) {
+	console.log("entered");
+				tx.executeSql("INSERT INTO 'categories' (id,name) VALUES (?, ?);", [1, 'cereales'], function() {
+				console.log("thisissparta");	
+				}, function(err) {
+					console.log('DB - error saving category - ' + err.message);
+				});
+				//operation.records[i].data.id = DatabaseHelper.getLastInsertRowId(tx);
+			});
+*/
