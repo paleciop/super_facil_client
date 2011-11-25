@@ -1,7 +1,7 @@
 appCart.models.CartProduct = Ext.regModel('appCart.models.CartProduct', {
 	fields : [{
 		name : 'bar_code',
-		type : 'int'
+		type : 'string'
 	}, {
 		name : 'name',
 		type : 'string'
