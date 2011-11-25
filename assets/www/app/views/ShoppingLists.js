@@ -41,6 +41,7 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
         listeners: {
 	        itemTap: function(thiss,index,itemss,e) {
 	        	var currentRecord = thiss.getStore().getAt(index);
+	        	
 	        	var recordID = currentRecord.get('id');
 	        	
 	        	console.log('tap!')
@@ -91,7 +92,7 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
 	                        },
 	                        
 	                    },{
-	                        text : 'Cancel',
+	                        text : 'Cancelar',
 	                        scope : this,
 	                        handler : function(){
 	                            this.actions.hide();
@@ -103,7 +104,7 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
             this.actions.show();
             }
         },
-        itemTpl: '{name}{id}',
+        itemTpl: '{name} Q.{budget}',
         onItemDisclosure: function (record) {
         	console.log(record.get('name'));
         	

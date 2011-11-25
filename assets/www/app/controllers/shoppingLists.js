@@ -37,6 +37,13 @@ appCart.controllers.shoppingLists = new Ext.Controller({
     		appCart.views.products, options.animation
     	);	
     },
+    showProductMainPage: function(options) {
+    	console.log('View - Loading MainProduct view');
+    	
+    	appCart.views.viewport.setActiveItem(
+    		appCart.views.productMain, options.animation
+    	);	
+    },
     edit: function(options) {
     },
     update: function(options) {

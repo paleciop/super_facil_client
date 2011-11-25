@@ -33,15 +33,7 @@ appCart.models.Product = Ext.regModel('appCart.models.Product', {
 
 appCart.stores.products = new Ext.data.Store({
 	model : 'appCart.models.Product',
-	data: [
-	{bar_code:'12345',name:'zucaritas1',url_image:'no',likes:'0',category_id:'1'},
-	{bar_code:'12345',name:'zucaritas2',url_image:'no',likes:'0',category_id:'1'},
-	{bar_code:'12345',name:'zucaritas3',url_image:'no',likes:'0',category_id:'2'},
-	{bar_code:'12346',name:'zucaritas4',url_image:'no',likes:'0',category_id:'2'},
-	{bar_code:'12347',name:'zucaritas5',url_image:'no',likes:'0',category_id:'3'}
-	
-	
-	],
+	data: [{"bar_code":"088169004237","name":"Nescafe Cl\u00e1sico","url_image":null,"likes":null,"category_id":"2"},{"bar_code":"1234","name":"Nivea Leche","url_image":"","likes":null,"category_id":"3"},{"bar_code":"2345","name":"Leche Australian","url_image":null,"likes":null,"category_id":"4"},{"bar_code":"3456","name":"Huggies","url_image":null,"likes":null,"category_id":"1"},{"bar_code":"4567","name":"Zucaritas","url_image":null,"likes":null,"category_id":"2"},{"bar_code":"8816900423","name":"Nescafe Cl\u00e1sico","url_image":"","likes":null,"category_id":"2"}],
 	filters:[{property:'name',value:'zucaritas1'}], //intento fallido de filtro
 	/*
 	proxy : {
@@ -89,7 +81,7 @@ appCart.stores.ids = new Ext.data.Store({
 	}
 });
 
-ppCart.models.idsModel = Ext.regModel('appCart.models.Product', {
+appCart.models.idsModel = Ext.regModel('appCart.models.Product', {
 	fields : [{
 		name : 'id',
 		type : 'int'

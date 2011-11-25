@@ -41,7 +41,7 @@ appCart.views.NewList = Ext.extend(Ext.form.FormPanel, {
 						var producto = Ext.ModelMgr.create(datos,'appCart.models.Product');
 						producto.save()
 						*/
-                        //Ext.Msg.alert('Lista', 'Se ha guardado la lista.', Ext.emptyFn);
+                        Ext.Msg.alert('Lista', 'Se ha guardado la lista.', Ext.emptyFn);
 
                         Ext.dispatch({
                            controller: appCart.controllers.shoppingLists,

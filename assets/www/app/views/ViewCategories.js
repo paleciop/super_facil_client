@@ -34,7 +34,7 @@ appCart.views.ViewCategories = Ext.extend(Ext.Panel, {
                         });	
         	}
         },
-        itemTpl: '{name}{id}',
+        itemTpl: '{name}',
         
     }
     

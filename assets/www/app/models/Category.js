@@ -112,11 +112,12 @@ console.log("AAAAAOAOAOAOAOA!!");
 appCart.stores.categories = new Ext.data.Store({
 	model : 'appCart.models.Category',
 	data : [
-		{id:'1',name:'cereales'},
-		{id:'2',name:'lacteos'},
-		{id:'3',name:'bebidas'},
-		{id:'4',name:'golosinas'},
-		{id:'5',name:'otros'}
+		{"id":"1","name":"Bebes"},
+		{"id":"2","name":"Cereales"},
+		{"id":"3","name":"Higiene"},
+		{"id":"4","name":"Lacteos"},
+		{"id":"5","name":"Limpieza"},
+		{"id":"6","name":"Snacks"}
 	]
 });
 

@@ -16,7 +16,8 @@ appCart.views.Viewport = Ext.extend(Ext.Panel, {
         	newList:	new appCart.views.NewList(),
         	myList: new appCart.views.MyList(),
         	viewCategories: new appCart.views.ViewCategories(),
-        	products: new appCart.views.Products()
+        	products: new appCart.views.Products(),
+        	productMain: new appCart.views.ProductMain(),
         });
         //put instances of cards into viewport
         Ext.apply(this, {
@@ -32,7 +33,8 @@ appCart.views.Viewport = Ext.extend(Ext.Panel, {
             	appCart.views.newList,
             	appCart.views.myList,
             	appCart.views.viewCategories,
-            	appCart.views.products
+            	appCart.views.products,
+            	appCart.views.productMain
             ]
         });
         appCart.views.Viewport.superclass.initComponent.apply(this, arguments);
