@@ -42,7 +42,7 @@ appCart.stores.products = new Ext.data.Store({
 	
 	
 	],
-	filters:[{property:'name',value:'zucaritas1'}],
+	filters:[{property:'name',value:'zucaritas1'}], //intento fallido de filtro
 	/*
 	proxy : {
 		type : 'ajax',
@@ -79,6 +79,8 @@ appCart.models.idsModel = Ext.regModel('appCart.models.Product', {
 	*/
 	
 });
+
+//inicio del chapuz para pasar la info de un view a otro
 appCart.stores.ids = new Ext.data.Store({
 	model: appCart.models.idsModel,
 	proxy: {
@@ -86,9 +88,24 @@ appCart.stores.ids = new Ext.data.Store({
 		id: 'ids'
 	}
 });
-appCart.stores.ids.add({id:'1',name:'lacteos'});
+
+ppCart.models.idsModel = Ext.regModel('appCart.models.Product', {
+	fields : [{
+		name : 'id',
+		type : 'int'
+	}, {
+		name : 'name',
+		type : 'string'
+	
+	}]
+	
+});
+
+//USO: antes de cargar la siguiente vista
+//appCart.stores.ids.add({id:'1',name:'lacteos'});
 console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> :) a small win in a shitload of fails" );
-console.log(appCart.stores.ids.getAt(0).get('id'));
-console.log(appCart.stores.ids.getAt(0).get('name'));
-appCart.stores.ids.removeAt(0);
-appCart.stores.ids.add({id:'10',name:'pizzas'});
+//en la siguiente vista se recupera la info de la posicion 0 y se borra el record en la posicion 0
+//console.log(appCart.stores.ids.getAt(0).get('id'));
+//console.log(appCart.stores.ids.getAt(0).get('name'));
+//appCart.stores.ids.removeAt(0);
+

@@ -42,9 +42,7 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
 	        itemTap: function(thiss,index,itemss,e) {
 	        	var currentRecord = thiss.getStore().getAt(index);
 	        	var recordID = currentRecord.get('id');
-	        	console.log("id:"+currentRecord.get('id'));
-	        	console.log("NAME: "+currentRecord.get('name'));
-	        	console.log("index: "+index);
+	        	
 	        	console.log('tap!')
 	            if (!this.actions) {
 	                this.actions = new Ext.ActionSheet({
