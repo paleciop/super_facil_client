@@ -62,7 +62,7 @@ appCart.controllers.shoppingCart = new Ext.Controller({
 							bar_code : result
 						});
 					 }, error: function() {
-					 	console.log('BARCODE - service failerd');
+					 	console.log('BARCODE - service failed' + result);
 					 	Ext.dispatch({
 							controller : appCart.controllers.shoppingCart,
 							action : 'productFail'

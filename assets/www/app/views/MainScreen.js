@@ -36,7 +36,9 @@ appCart.views.MainScreen = Ext.extend(Ext.Panel, {
 		            });
         		}
     		}
-    	}),
+    	})
+    	/*
+    	,
     	{xtype:'spacer'},
     	new Ext.Button({
     		text: 'Debug Mode',
@@ -47,8 +49,9 @@ appCart.views.MainScreen = Ext.extend(Ext.Panel, {
 		            window.location.href = 'debug.html';
         		}
     		}
-    	}),
-    	{xtype:'spacer'}
+    	}),*/
+    	,{xtype:'spacer'}
+    	
     	
     ],
     initComponent: function() {
