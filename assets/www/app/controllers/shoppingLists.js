@@ -8,7 +8,7 @@ appCart.controllers.shoppingLists = new Ext.Controller({
         
     },
     "new": function(options) {
-    	
+    	appCart.views.newList.load({ name: '', budget: ''});
     	appCart.views.viewport.setActiveItem(
     		appCart.views.newList, options.animation
     	);
@@ -23,16 +23,21 @@ appCart.controllers.shoppingLists = new Ext.Controller({
     },
     showCategories: function(options) {
     	console.log('View - Loading Categories view');
-    	console.log("IDD: "+options.id);
-    	console.log("NAMEE: "+options.name);
+    	//console.log("IDD: "+options.id);
+    	//console.log("NAMEE: "+options.name);
+    	appCart.stores.categories.load();
+    	console.log('View - Loaded store');
+    	
+    	appCart.views.viewCategories.record = options.record;
+    	
     	appCart.views.viewport.setActiveItem(
     		appCart.views.viewCategories, options.animation
     	);	
     },
     showProducts: function(options) {
     	console.log('View - Loading Products view');
-    	console.log("IDD: "+options.id);
-    	console.log("NAMEE: "+options.name);
+    	appCart.stores.listProducts.getProxy().extraParams = { list_id : options.id};
+    	appCart.stores.listProducts.load();
     	appCart.views.viewport.setActiveItem(
     		appCart.views.products, options.animation
     	);	

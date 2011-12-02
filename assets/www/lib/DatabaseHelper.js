@@ -68,13 +68,12 @@ var DatabaseHelper = {
 			tx.executeSql( 
 				"CREATE TABLE IF NOT EXISTS 'lists_products' (" +
 				"'quantity'  INTEGER NOT NULL DEFAULT 0," +
-				"'scaned'  INTEGER NOT NULL DEFAULT 0," +
-				"'products_id'  INTEGER NOT NULL," +
-				"'lists_id'  INTEGER NOT NULL," +
-				"PRIMARY KEY ('products_id', 'lists_id')," +
-				"CONSTRAINT 'products_id' FOREIGN KEY ('products_id') REFERENCES 'products' ('bar_code') ON DELETE CASCADE ON UPDATE CASCADE," +
-				"CONSTRAINT 'lists_id' FOREIGN KEY ('lists_id') REFERENCES 'lists' ('id') ON DELETE CASCADE ON UPDATE CASCADE," +
-				"CONSTRAINT 'id' UNIQUE ('lists_id', 'products_id') ON CONFLICT ABORT);"
+				"'bar_code'  TEXT NOT NULL," +
+				"'list_id'  INTEGER NOT NULL," +
+				"'name'  TEXT NOT NULL," +
+				"PRIMARY KEY ('bar_code', 'list_id')," +
+				"CONSTRAINT 'list_id' FOREIGN KEY ('list_id') REFERENCES 'lists' ('id') ON DELETE CASCADE ON UPDATE CASCADE," +
+				"CONSTRAINT 'id' UNIQUE ('list_id', 'bar_code') ON CONFLICT ABORT);"
 			);
 		},
 		function(err) {

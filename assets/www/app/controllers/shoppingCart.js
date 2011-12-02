@@ -23,7 +23,21 @@ appCart.controllers.shoppingCart = new Ext.Controller({
     		appCart.views.productFail, options.animation
     	);
     },
+    selectList: function (options) {
+    	
+    	appCart.stores.lists.load();
+    	appCart.views.viewport.setActiveItem(
+    		appCart.views.selectList, options.animation
+    	);	
+    },
     viewItems: function (options) {
+    	var total = 0;
+    	appCart.stores.cartProducts.each(function(record){
+    		total += record.data.price * record.data.quantity;
+    		return true;
+    	},this);
+    	
+    	appCart.views.shoppingCart.updateTotal(total);
     	appCart.views.viewport.setActiveItem(
     		appCart.views.shoppingCart, options.animation
     	);	

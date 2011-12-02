@@ -31,7 +31,7 @@ appCart.views.MainScreen = Ext.extend(Ext.Panel, {
     			'tap': function () {
 		            Ext.dispatch({
 		                controller: appCart.controllers.shoppingCart,
-		                action: 'viewItems',
+		                action: 'selectList',
 		                animation: {type:'slide', direction:'right'}
 		            });
         		}

@@ -29,9 +29,19 @@ appCart.views.ShoppingCart = Ext.extend(Ext.Panel, {
 				}
 			}
 		}]
+	}, {
+		id : 'sc_bpresupuesto',
+		xtype: 'toolbar',
+        ui: 'light',
+        dock: 'bottom',
+		items:  []
 	},{
+		id: 'sc_btotal',
 		xtype : 'toolbar',
 		dock: 'bottom',
+		layout: {
+		    align: 'right' // align center is the default
+		},
 		ui: 'light',	
 		items : [{
 			text : 'Vaciar',
@@ -54,7 +64,7 @@ appCart.views.ShoppingCart = Ext.extend(Ext.Panel, {
 		itemTpl : '<strong>{name}</strong> <br />{quantity}x{price} - {subtotal} ',
 		listeners : {
 			'itemTap' : function(thiss,i,el,e) {
-				var record  = thiss.store.getAt(i);
+				this.record  = thiss.store.getAt(i);
 				if(!this.actions) {
 					this.actions = new Ext.ActionSheet({
 						items : [
@@ -71,7 +81,7 @@ appCart.views.ShoppingCart = Ext.extend(Ext.Panel, {
 								Ext.dispatch({
 									controller : appCart.controllers.shoppingCart,
 									action : 'productView',
-									bar_code : record.get('bar_code')
+									bar_code : this.record.get('bar_code')
 								});
 								this.actions.hide();
 							}
@@ -82,7 +92,7 @@ appCart.views.ShoppingCart = Ext.extend(Ext.Panel, {
 							scope : this,
 							handler : function() {
 								if (confirm('Seguro que deseas borrar este elemento'))
-									appCart.stores.cartProducts.remove(record);
+									appCart.stores.cartProducts.remove(this.record);
 								
 								this.actions.hide();
 							}
@@ -106,5 +116,22 @@ appCart.views.ShoppingCart = Ext.extend(Ext.Panel, {
 	initComponent : function() {
 		appCart.stores.cartProducts.load();
 		appCart.views.ShoppingCart.superclass.initComponent.apply(this, arguments);
+	},
+	setList : function(list) {
+		appCart.views.shoppingCart.list = list;
+	},
+	updateTotal: function( total ) {
+		var subt = this.getDockedItems()[1];
+		var toolbar = this.getDockedItems()[2];
+    	
+    	var $l = appCart.views.shoppingCart.list;
+    	if ($l) {
+    		subt.setVisible(true);
+    		subt.setTitle('Pres. Q. ' + $l.data.budget);
+    		toolbar.setTitle('Q.' + total);
+    	} else {
+    		subt.setVisible(false);
+    		toolbar.setTitle('Total Q.' + total);
+    	}
 	}
 });

@@ -1,4 +1,4 @@
-Ext.data.ProxyMgr.registerType("categorystorage", Ext.extend(Ext.data.Proxy, {
+/*Ext.data.ProxyMgr.registerType("categorystorage", Ext.extend(Ext.data.Proxy, {
 	create : function(operation, callback, scope) {
 		var thisProxy = this;
 	console.log("ENTERED!!");
@@ -119,5 +119,30 @@ appCart.stores.categories = new Ext.data.Store({
 		{"id":"5","name":"Limpieza"},
 		{"id":"6","name":"Snacks"}
 	]
+});
+
+*/
+
+appCart.models.Category = Ext.regModel('appCart.models.Category', {
+	fields : [{
+		name : 'id',
+		type : 'int'
+	}, {
+		name : 'name',
+		type : 'string'
+	}],
+	proxy : {
+		type : "ajax",
+		url: $host + $services['getCategory'],
+		reader: {
+			root: 'elements',
+			type: 'tree'
+		}
+	}
+});
+
+appCart.stores.categories = new Ext.data.TreeStore({
+	model : 'appCart.models.Category',
+	autoLoad: true
 });
 

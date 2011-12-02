@@ -24,19 +24,19 @@ appCart.views.Products = Ext.extend(Ext.Panel, {
     
      {
         xtype: 'list',
-        store: appCart.stores.products,
+        store: appCart.stores.listProducts,
         listeners: {
-	        itemTap: function(thiss,index,itemss,e) {
+	        /*itemTap: function(thiss,index,itemss,e) {
 	        	console.log('index'+index);
 	        	appCart.stores.ids.add({id:index,name:'index'});
 	        	console.log("tapped")	
 	        	Ext.dispatch({
                            controller: appCart.controllers.shoppingLists,
                            action: 'showProductMainPage'
-                        });
-        	}
+                       }); 
+        	}*/
         },
-        itemTpl: '{name}{id}',
+        itemTpl: '{name} <br />Cantidad: {quantity}'
         
     }
     

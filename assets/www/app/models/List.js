@@ -81,15 +81,21 @@ Ext.data.ProxyMgr.registerType("liststorage", Ext.extend(Ext.data.Proxy, {
 		});
 	},
 	destroy : function(operation, callback, scope) {
-		var records = operation.records, length = records.length;
-
+		var records = operation.records;
+		var length = records.length;
+		
+		operation.setStarted();
 		//newIds is a copy of ids, from which we remove the destroyed records
 		
 		DatabaseHelper.db.transaction(function(tx){
 			for(var i = 0; i < length; i++) {
-				tx.executeSql("DELETE FROM lists WHERE id=?;", [records.data.id]);
+				tx.executeSql("DELETE FROM lists WHERE id=?;", [records[i].data.id]);
+				console.log('Deleting  lists ' + records[i].data.id);
 			}
+			
 		});
+		operation.setCompleted();
+					operation.setSuccessful();
 		if( typeof callback == 'function') {
 			callback.call(scope || this, operation);
 		}

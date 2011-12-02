@@ -8,7 +8,7 @@ appCart.views.Viewport = Ext.extend(Ext.Panel, {
         	mainScreen:	new appCart.views.MainScreen(),
         	shoppingLists:	new appCart.views.ShoppingLists(),
         	
-        	//chooseList: new appCart.views.ChooseList(),
+        	selectList: new appCart.views.SelectList(),
         	//showList: new appCart.views.ShowList(),
         	shoppingCart: new appCart.views.ShoppingCart(),
         	productView: new appCart.views.ProductView(),
@@ -25,7 +25,7 @@ appCart.views.Viewport = Ext.extend(Ext.Panel, {
             	appCart.views.mainScreen,
             	appCart.views.shoppingLists,
             	
-            	//appCart.views.chooseList,
+            	appCart.views.selectList,
             	//appCart.views.showList,
             	appCart.views.shoppingCart,
             	appCart.views.productView,

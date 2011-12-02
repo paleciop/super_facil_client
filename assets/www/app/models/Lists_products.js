@@ -1,141 +1,131 @@
-/* LISTS_PRODUCTS CRUD*/
+Ext.data.ProxyMgr.registerType("listsprodstorage", Ext.extend(Ext.data.Proxy, {
+	create : function(operation, callback, scope) {
+		var thisProxy = this;
 
-var shortName = 'WebSqlDB'; 
-var version = '1.0'; 
-var displayName = 'WebSqlDB'; 
-var maxSize = 512000; 
-var db = openDatabase(shortName, version, displayName,maxSize); 
-var lists_products = [];
-var lists_products_relationship = [];
+		operation.setStarted();
 
-function errorHandler(transaction, error) { 
-	console.log('Lists_products.js: Error: ' + error.message + ' code: ' + error.code); 
-} 
+		for(var i = 0; i < operation.records.length; i++) {
+			var list = operation.records[i].data;
 
-function successHandler(transaction){
-	console.log('Lists_products.js: Great success!');
-}
-// Set up datamodel
+			DatabaseHelper.db.transaction(function(tx) {
+				tx.executeSql("INSERT INTO 'lists_products' (bar_code,list_id,name,quantity) VALUES (?,?,?,?);",
+				 [list.bar_code, list.list_id,list.name, list.quantity], function() {
+					operation.setCompleted();
+					operation.setSuccessful();
+					//finish with callback
+					if( typeof callback == 'function') {
+						callback.call(scope || thisProxy, operation);
+					}
+				}, function(err) {
+					operation.setCompleted();
+					console.log([list.bar_code, list.list_id,list.name, list.quantity].join());
+					console.log('DB - error saving list - ' + err.message);
+				});
+				//operation.records[i].data.id = DatabaseHelper.getLastInsertRowId(tx);
+			});
+		}
+	},
+	read : function(operation, callback, scope) {
+		var thisProxy = this;
+		var list_id = this.extraParams.list_id;
+		DatabaseHelper.db.transaction(function(tx) {
+			tx.executeSql('SELECT * FROM lists_products WHERE list_id = ?;', [list_id], function(transaction, results) {
+				var lists = [];
 
-/* CREATE */
+				for(var i = 0; i < results.rows.length; i++) {
+					row = results.rows.item(i);
+					var list = new thisProxy.model({
+						bar_code : row['bar_code'],
+						list_id : row['list_id'],
+						name : row['name'],
+						quantity : row['quantity']
+					})
+					lists.push(list);
+				}
 
-function newRelationship(quantity,scaned_products,products_id,lists_id) { 
-	if (!window.openDatabase) { 
-    	alert('Databases are not supported in this browser.'); 
-    	return; 
-    } 
-// inserts the values into the 'products' table 
- db.transaction(function(transaction) { 
-   transaction.executeSql(
-   "INSERT INTO 'lists_products' VALUES (?, ?, ?, ?);",[quantity, scaned_products, products_id,lists_id],successHandler,errorHandler); 
-   });
-   return false; 
-}
+				operation.resultSet = new Ext.data.ResultSet({
+					records : lists,
+					total : lists.length,
+					loaded : true
+				});
+				//announce success
+				operation.setSuccessful();
+				operation.setCompleted();
+				//finish with callback
+				if( typeof callback == "function") {
+					callback.call(scope || thisProxy, operation);
+				}
+			}, function(err) {
+				console.log('Proxy liststorage - failed to fetch lists. Error ' + err.message);
+			});
+		});
+	},
+	update : function(operation, callback, scope) {
+		var thisProxy = this;
 
-/* READ */ 
+		operation.setStarted();
+		DatabaseHelper.db.transaction(function(tx) {
+		for(var i = 0; i < operation.records.length; i++) {
+			var list = operation.records[i].data;
 
-Ext.regModel('Lists_products', {
-    fields: [
-        {name: 'code',      type: 'int'},
-        {name: 'liked',    type: 'int'},
-        {name: 'categorized',   type: 'int'}
-    ]
+			
+				tx.executeSql("UPDATE 'lists_products' SET name = ?, quantity = ? WHERE bar_code = ? AND list_id = ? ;",
+					 [list.name, list.quantity, list.bar_code,list.list_id], function() {
+					operation.setCompleted();
+					operation.setSuccessful();
+					//finish with callback
+					if( typeof callback == 'function') {
+						callback.call(scope || thisProxy, operation);
+					}
+				}, function(err) {
+					operation.setCompleted();
+					console.log('DB - error saving list - ' + err.message);
+				});
+		}
+		});
+	},
+	destroy : function(operation, callback, scope) {
+		var records = operation.records;
+		var length = records.length;
+		
+		operation.setStarted();
+		//newIds is a copy of ids, from which we remove the destroyed records
+		
+		DatabaseHelper.db.transaction(function(tx){
+			for(var i = 0; i < length; i++) {
+				tx.executeSql("DELETE FROM lists_products WHERE bar_code = ? AND list_id = ?;", [records[i].data.bar_code,records[i].data.list_id]);
+				console.log('Deleting  lists_products ' + records[i].data.bar_code);
+			}
+			
+		});
+		operation.setCompleted();
+					operation.setSuccessful();
+		if( typeof callback == 'function') {
+			callback.call(scope || this, operation);
+		}
+
+	}
+}));
+
+appCart.models.ListProduct = Ext.regModel('appCart.models.ListProduct', {
+	fields : [{
+		name : 'list_id',
+		type : 'int'
+	}, {
+		name : 'name',
+		type : 'string'
+	}, {
+		name : 'bar_code',
+		type : 'int'
+	}, {
+		name : 'quantity',
+		type : 'int'
+	}],
+	proxy : {
+		type : "listsprodstorage"
+	}
 });
-var lists_products_store = new Ext.data.Store({
-  model  : 'Lists_products',
-  data: lists_products
+
+appCart.stores.listProducts = new Ext.data.Store({
+	model : 'appCart.models.ListProduct',
 });
-// Get the data from the database and call the function allDataSelectHandler when finished
-function getProductsFromList(list_id){
-  db.transaction(
-      function (transaction) {
-          // OJO! 
-          // 'quantity' es el numero de cierto producto en la lista y 'scaned' es el numero de productos que lleva escaneados
-          // Ejemplo: al crear su lista, selecciono 100 litros de cerveza. En ese caso 'quantity' = 100, cuando esté en el super escaneando
-          // sus listas, para el producto 'cerveza' de la lista 'mi lista' va a empezar en 0 y conforme el chatio escanee las cervezas (o la escanee una vez
-          // y ponga el numero) se va a ir aumentando 'scaned'
-          // no hay que confundirlos.
-          transaction.executeSql('SELECT * FROM products p WHERE EXISTS(SELECT * FROM lists_products lp WHERE p.code = lp.products_id AND lp.lists_id = ?);', [list_id],  listsProductsCallback);
-      }
-  );
-}
-
-
-function listsProductsCallback(transaction, results){
-console.log("entered");
- if (results.rows.length != 0){
-    // Loop through the records and add them to the store
-    for (var i=0; i < results.rows.length; i++){
-          row = results.rows.item(i);
-          lists_products_store.add({'code':row['code'],'liked':row['liked'],'categorized':row['categorized']});
-    }  
-  }
-}
-//****************************************************************************
-
-Ext.regModel('Lists_products_relationship', {
-    fields: [
-        {name: 'code',      type: 'int'},
-        {name: 'list_id',    type: 'int'},
-        {name: 'scaned',   type: 'int'},
-        {name: 'quantity',   type: 'int'}
-    ]
-});
-var lists_products_relationship_store = new Ext.data.Store({
-  model  : 'Lists_products_relationship',
-  data: lists_products_relationship
-});
-// Get the data from the database and call the function allDataSelectHandler when finished
-function getRelationship(list_id){
-  db.transaction(
-      function (transaction) {
-          transaction.executeSql('SELECT * FROM lists_products WHERE lists_id=?;', [list_id],  listsProductsCallback);
-      }
-  );
-}
-
-
-function listsProductsCallback(transaction, results){
-console.log("entered");
- if (results.rows.length != 0){
- console.log("ennnntered!");
-    // Loop through the records and add them to the store
-    for (var i=0; i < results.rows.length; i++){
-          row = results.rows.item(i);
-          console.log(row['products_id']);
-          console.log(row['scaned']);
-          lists_products_relationship_store.add({'code':row['products_id'],'list_id':row['lists_id'],'scaned':row['scaned'],'quantity':row['quantity']});
-    }  
-  }
-}
-/* UPDATE */
-
-function setQuantity(quantity,product_code,list_id){
-  db.transaction(function(transaction) { 
-     transaction.executeSql("UPDATE lists_products SET quantity=? WHERE products_id=? AND lists_id=?;",[quantity,product_code,list_id],successHandler,errorHandler);
-  });
-  return false; 	   
-}
-
-function setScaned(scaned,product_code,list_id){
-  db.transaction(function(transaction) { 
-     transaction.executeSql("UPDATE lists_products SET scaned=? WHERE products_id=? AND lists_id=?;",[scaned,product_code,list_id],successHandler,errorHandler);
-  });
-  return false; 	   
-}
-
-/* DELETE */
-
-function deleteProduct(product_code,list_id){
-db.transaction(function(transaction) { 
-   transaction.executeSql(
-   "DELETE FROM lists_products WHERE products_id=? AND lists_id=?;",[product_code,list_id],successHandler,errorHandler); 
-   });
-   return false; 	   
-}
-
-//testing
-
-newRelationship(33,2,12345,1);
-newRelationship(22,3,12349,1);
-getRelationship(1);

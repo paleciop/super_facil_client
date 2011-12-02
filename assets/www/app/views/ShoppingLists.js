@@ -21,7 +21,7 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
             {
                 id: 'new',
                 text: 'Nueva Lista',
-                ui: 'action',
+                ui: 'forward',
                 listeners: {
                     'tap': function () {
                         Ext.dispatch({
@@ -39,12 +39,10 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
         xtype: 'list',
         store: appCart.stores.lists,
         listeners: {
-	        itemTap: function(thiss,index,itemss,e) {
-	        	var currentRecord = thiss.getStore().getAt(index);
+	        'itemTap' : function(thiss,i,el,e) {
+	        	this.record  = thiss.store.getAt(i);
 	        	
-	        	var recordID = currentRecord.get('id');
-	        	
-	        	console.log('tap!')
+	        	console.log('tap!'+  i + ',' + this.record.get('id'));
 	            if (!this.actions) {
 	                this.actions = new Ext.ActionSheet({
 	                    items: [
@@ -55,14 +53,10 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
 	                        	Ext.dispatch({
                            			controller: appCart.controllers.shoppingLists,
                            			action: 'showProducts',
-                           			
-                           			name: currentRecord.get('name')
-                           			
+                           			id: this.record.get('id'),
+                           			record: this.record                         			
                         		});
-	                        	//console.log(this.getActiveItem());
-	                        	// var activeList = thiss.getActiveItem();
-            					//recordd = activeList.getSelectedRecords()[0];
-								//console.log(recordd.get('name'));
+	                        	
 								this.actions.hide();
 	                        }
 	                    },{
@@ -70,9 +64,13 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
 	                        ui: 'decline',
 	                        scope : this,
 	                        handler : function(){
-	                        	
-                    			console.log(currentRecord.get('id'));
-                    			appCart.models.List.destroy(currentRecord);
+	                        	//if (confirm('Seguro que deseas borrar este elemento'))
+	                        	console.log('borrar!'+  i + ',' + this.record.get('id'));
+	                        	if (confirm('Seguro que deseas borrar este elemento')){
+                    				appCart.stores.lists.remove(this.record);
+                    				appCart.stores.lists.sync();
+                    				appCart.stores.lists.load();
+                    			}
 	                        	//console.log(this.getActiveItem());
 	                        	// var activeList = thiss.getActiveItem();
             					//recordd = activeList.getSelectedRecords()[0];
@@ -80,13 +78,14 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
 								this.actions.hide();
 	                        }
 	                    },{
-	                        text : 'Editar',
+	                        text : 'Agregar productos',
 	                        scope : this,
 	                        handler : function(){
 	                        	Ext.dispatch({
                            			controller: appCart.controllers.shoppingLists,
                            			action: 'showCategories',
-                           			
+                           			id: this.record.get('id'),
+                           			record: this.record
                         		});
                         		this.actions.hide();
 	                        },
@@ -113,7 +112,8 @@ appCart.views.ShoppingLists = Ext.extend(Ext.Panel, {
             Ext.dispatch({
                 controller: appCart.controllers.shoppingLists,
                 action: 'show',
-                id: record.get('id')
+                id: record.get('id'),
+                record:  record
             });
         },
     }
